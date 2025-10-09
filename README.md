@@ -1,16 +1,42 @@
-# React + Vite
+# 🌸 Areum Atelier
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**Areum Atelier** is an elegant, AI-assisted face analysis and makeup recommendation web experience inspired by the fusion of Korean and French beauty philosophy.  
+The name combines the Korean word *“Areum”* (meaning *beauty*) and the French *“Atelier”* (meaning *studio*) — embodying a space where technology meets timeless grace.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 💋 Overview
+Areum Atelier allows users to explore their natural beauty through personalized analysis and AI-driven makeup insights.  
+By answering a short set of questions about facial features, undertones, and preferred styles, users receive refined recommendations tailored to their unique traits.
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ✨ Features
+- 🪞 **Facial Analysis Questionnaire** — A guided, intuitive form that helps users describe their features.  
+- 💄 **AI Makeup Recommendations** — Personalized looks and product suggestions generated from user responses.  
+- 📖 **Moodboard** — A minimal, Pinterest-style inspiration section.  
+- 🪶 **About Page** — Showcasing the philosophy and story behind *Areum Atelier*.
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🧠 Tech Stack
+- **Frontend:** React.js (Vite)
+- **Styling:** Tailwind CSS
+- **Icons & Images:** Font Awesome, Custom Assets
+- **AI Integration:** OpenAI API (for beauty analysis & insights)
+
+---
+
+## 🛠️ Installation
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/yourusername/areum-atelier.git
+2. Navigate to the project folder:
+   ```bash
+   cd areum-atelier
+4. Install dependencies:
+   ```bash
+   npm install
+5. Run the project:
+   ```bash
+   npm run dev
