@@ -30,7 +30,7 @@ By answering a short set of questions about facial features, undertones, and pre
 ## 🛠️ Installation
 1. Clone this repository:
    ```bash
-   git clone https://github.com/yourusername/areum-atelier.git
+   git clone https://github.com/iverene/Areum-Atelier.git
 2. Navigate to the project folder:
    ```bash
    cd areum-atelier
