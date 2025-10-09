@@ -8,7 +8,7 @@ export default function Navbar() {
     };
 
     return (
-        <nav className="w-full  bg-snowWhite text-smokyBlack font-heading flex items-center justify-between p-3 md:p-4 lg:pl-5 lg:py-2 lg:pr-25 sticky top-0 left-0 z-50">
+        <nav className="w-full  bg-snowWhite text-smokyBlack font-heading flex items-center justify-between p-2 md:p-4 lg:pl-5 lg:py-2 lg:pr-25 sticky top-0 left-0 z-50">
             <div className="flex items-center space-x-2">
                 <img src="src/assets/logo/logo.png" alt="logo" className="w-10 h-10"/>
                 <a href=""><img src="src/assets/logo/word-logo.png" alt="word logo" className="w-40 h-auto"/></a>
