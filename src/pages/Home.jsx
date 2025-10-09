@@ -6,7 +6,7 @@ export default function Home() {
       <Navbar />
       
         <div className="flex flex-col items-center justify-center text-center px-4">
-            <img src="src/assets/images/home-page-img.png" alt="Home Page Image" className="w-100 h-120"/>
+            <img src="src/assets/images/home-page-img.png" alt="Home Page Image" className="w-100 h-auto"/>
         </div>
       
     </div>
