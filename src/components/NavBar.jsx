@@ -1,4 +1,12 @@
+import { useState } from 'react';
+
 export default function Navbar() {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
     return (
         <nav className="w-full  bg-snowWhite text-smokyBlack font-heading font-bold flex items-center justify-between p-2 md:p-4 lg:px-5 sticky top-0 left-0 z-50">
             <div className="flex items-center space-x-4">
@@ -14,8 +22,18 @@ export default function Navbar() {
                 </ul>
             </div>
 
-            <div className="md:hidden cursor-pointer">
-                <i className="fa-solid fa-bars text-2xl"></i>
+            <div className="md:hidden cursor-pointer" onClick={toggleMenu}>
+                <i className={`fa-solid ${isMenuOpen ? 'fa-xmark' : 'fa-bars'} text-2xl`}></i>
+            </div>
+
+            <div className={`absolute top-full left-0 w-full bg-snowWhite shadow-lg md:hidden transition-all duration-300 ease-in-out ${
+                isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
+            }`}>
+                <ul className="flex flex-col items-center py-4 space-y-4 text-lg">
+                    <li><a href="#analysis" className="hover:text-roseWood transition-colors py-2" onClick={() => setIsMenuOpen(false)}>ANALYSIS</a></li>
+                    <li><a href="#moodboard" className="hover:text-roseWood transition-colors py-2" onClick={() => setIsMenuOpen(false)}>MOODBOARD</a></li>
+                    <li><a href="#about" className="hover:text-roseWood transition-colors py-2" onClick={() => setIsMenuOpen(false)}>ABOUT</a></li>
+                </ul>
             </div>
 
         </nav>
