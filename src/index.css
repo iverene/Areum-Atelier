@@ -17,4 +17,38 @@
   --font-body: "Raleway", sans-serif;
 }
 
+@layer components {
+  .philosophy-container {
+    @apply flex flex-col items-center space-y-6 md:flex-row md:items-center md:space-y-0 md:space-x-15 lg:space-x-20;
+  }
+  
+  .philosophy-text {
+    @apply font-body font-medium italic px-5 w-full text-center flex items-center justify-center h-full md:text-xl lg:text-2xl md:w-auto md:text-left md:justify-start min-h-[80px];
+  }
+  
+  .philosophy-image {
+    @apply w-100 h-auto;
+  }
+
+  .quote-container {
+    @apply relative max-w-2xl mx-auto py-8 px-5 lg:max-w-md;
+  }
+  
+  .quote-mark {
+    @apply text-softPink/40 text-4xl absolute;
+  }
+  
+  .quote-start {
+    @apply -top-1 -left-1 ml-5;
+  }
+  
+  .quote-end {
+    @apply -bottom-1 -right-1 mr-5;
+  }
+  
+  .quote-content {
+    @apply font-heading italic text-lg lg:text-xl text-smokyBlack text-center leading-relaxed px-5;
+  }
+}
+
 
