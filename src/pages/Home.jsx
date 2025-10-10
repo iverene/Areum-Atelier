@@ -1,9 +1,10 @@
 import Navbar from "../components/NavBar";
 import Footer from "../components/Footer";
+import { Link } from 'react-router-dom';
 
 export default function Home() {
   return (
-    <div id="home" className="bg-snowWhite min-h-screen">
+    <div className="bg-snowWhite min-h-screen">
       <Navbar />
       
         <div className="flex flex-col md:flex-row items-center justify-center text-center px-4 lg:gap-30">
@@ -20,7 +21,7 @@ export default function Home() {
                 <p className="text-4xl md:text-5xl lg:text-6xl font-heading font-medium italic text-roseWood">L’Art d’Être Belle</p>
                 <p className="text-xl md:text-2xl lg:text-3xl font-heading font-medium italic text-smokyBlack">(The Art of Being Beautiful)</p>
                 <p className="text-base md:text-lg lg:text-xl lg:text-left font-body font-medium text-smokyBlack my-8">Discover the subtle harmony of form, color, and self — personalized to you.</p>
-                <a href="#analysis" className="bg-roseWood text-snowWhite px-6 py-3 rounded-lg text-lg font-heading font-medium hover:bg-smokyBlack mb-5">START ANALYSIS</a>
+                <Link to="/analysis" className="bg-roseWood text-snowWhite px-6 py-3 rounded-lg text-lg font-heading font-medium hover:bg-smokyBlack mb-5">START ANALYSIS</Link>
             </div>
         </div>
 
