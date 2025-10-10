@@ -23,21 +23,43 @@ export default function About() {
               </section>
 
                 {/* The Story */}
-              <section className="flex flex-col items-center justify-center text-center space-y-8 px-4 py-10">
+              <section className="flex flex-col items-center justify-center text-center space-y-8 lg:space-y-12 px-4 py-10 lg:py-20 lg:px-30">
                 <div className="md:px-20 lg:px-40 space-y-6">
                     <h1 className="font-heading italic text-dustyRose text-5xl lg:text-6xl">The Story</h1>
-                    <p className="font-body font-medium text-justify indent-8 lg:indent-10 px-5 leading-7 md:leading-8 lg:leading-10 md:text-xl lg:text-2xl">Born from a love for both technology and the artistry of beauty, <span className="font-bold italic">Areum Atelier</span> began as a passion project inspired by countless hours of learning and watching makeup transform <span className="font-bold text-dustyRose">confidence into grace</span>. It was envisioned to make self-expression feel natural and beautifully refined — not to define you, but to help you rediscover your natural elegance in a new light.</p>
+                    <p className="font-body font-medium text-justify indent-8 lg:indent-10 px-5 leading-7 md:leading-8 lg:leading-10 md:text-xl lg:text-2xl">
+                        Born from a love for both technology and the artistry of beauty, <span className="font-bold italic">Areum Atelier</span> began as a passion project inspired by countless hours of learning and watching makeup transform <span className="font-bold text-dustyRose">confidence into grace</span>. It was envisioned to make self-expression feel natural and beautifully refined — not to define you, but to help you rediscover your natural elegance in a new light.
+                    </p>
                 </div>
-                <div>
 
+                <div className="container mx-auto px-4 md:px-5 lg:px-20 columns-2 md:columns-3 lg:columns-3 space-y-4 gap-4 md:gap-6 max-w-6xl w-full">
+                        <div className="animate-column-wave opacity-0 [animation-delay:200ms]">
+                            <img src="src/assets/images/story-1.jpg" alt="Story 1" className="w-full h-64 object-cover rounded-lg shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300" />
+                        </div>
+                        <div className="animate-column-wave opacity-0 [animation-delay:400ms]">
+                            <img src="src/assets/images/story-4.jpg" alt="Story 4" className="w-full h-80 object-cover rounded-lg shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300" />
+                        </div>
+                        <div className="animate-column-wave opacity-0 [animation-delay:600ms]">
+                            <img src="src/assets/images/story-7.jpg" alt="Story 7" className="w-full h-56 object-cover rounded-lg shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300" />
+                        </div>
+                        <div className="animate-column-wave opacity-0 [animation-delay:500ms]">
+                            <img src="src/assets/images/story-5.jpg" alt="Story 5" className="w-full h-60 object-cover rounded-lg shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300" />
+                        </div>
+                        <div className="animate-column-wave opacity-0 [animation-delay:700ms]">
+                            <img src="src/assets/images/story-8.jpg" alt="Story 8" className="w-full h-68 object-cover rounded-lg shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300" />
+                        </div>
+                        <div className="animate-column-wave opacity-0 [animation-delay:600ms]">
+                            <img src="src/assets/images/story-6.jpg" alt="Story 6" className="w-full h-76 object-cover rounded-lg shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300" />
+                        </div>
+                        <div className="animate-column-wave opacity-0 [animation-delay:800ms]">
+                            <img src="src/assets/images/story-9.jpg" alt="Story 9" className="w-full h-62 object-cover rounded-lg shadow-md hover:scale-105 hover:shadow-lg transition-all duration-300" />
+                        </div>
                 </div>
-                
-              </section>
+            </section>
 
                 {/* The Philosophy */}
               <section className="flex flex-col items-center justify-center text-center space-y-8 px-4 py-10 lg:py-20 lg:px-30">
                 <h1 className="font-heading italic text-dustyRose text-5xl lg:text-6xl">The Philosophy</h1>
-                <p className="font-body font-medium text-justify px-5 indent-8 lg:indent-0 leading-7 md:leading-8 lg:leading-10 md:text-xl lg:text-2xl lg:text-left lg:pr-150 lg:py-10">We believe beauty is an emotion — <span className="font-bold text-dustyRose">soft, refined, and ever-evolving</span>. Our approach is rooted in self-awareness, artistry, and authenticity.</p>
+                <p className="font-body font-medium text-justify px-5 indent-8 lg:indent-0 leading-7 md:leading-8 lg:leading-10 md:text-xl lg:text-2xl lg:text-center lg:px-50 lg:py-10 ">We believe beauty is an emotion — <span className="font-bold text-dustyRose">soft, refined, and ever-evolving</span>. Our approach is rooted in self-awareness, artistry, and authenticity.</p>
                 
                 <div className="space-y-5 lg:space-y-10">
                     <div className="philosophy-container">

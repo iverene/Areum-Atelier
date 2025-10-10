@@ -51,4 +51,25 @@
   }
 }
 
+@layer utilities {
+    @keyframes column-wave {
+        0% {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        60% {
+            opacity: 0.8;
+            transform: translateY(-5px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .animate-column-wave {
+        animation: column-wave 0.8s ease-out forwards;
+    }
+}
+
 
