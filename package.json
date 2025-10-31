@@ -11,7 +11,13 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
+    "@google/generative-ai": "^0.24.1",
     "@tailwindcss/vite": "^4.1.14",
+    "axios": "^1.13.1",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "firebase": "^12.5.0",
     "framer-motion": "^12.23.23",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
@@ -28,5 +34,18 @@
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
     "vite": "^7.1.7"
-  }
+  },
+  "description": "**Areum Atelier** is an elegant, AI-assisted face analysis and makeup recommendation web experience inspired by the fusion of Korean and French beauty philosophy.  \r The name combines the Korean word *“Areum”* (meaning *beauty*) and the French *“Atelier”* (meaning *studio*) — embodying a space where technology meets timeless grace.",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/iverene/Areum-Atelier.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/iverene/Areum-Atelier/issues"
+  },
+  "homepage": "https://github.com/iverene/Areum-Atelier#readme"
 }

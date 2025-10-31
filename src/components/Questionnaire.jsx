@@ -237,7 +237,10 @@ const categories = [
 
 const Questionnaire = () => {
   const [currentCategory, setCurrentCategory] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const [isFinished, setIsFinished] = useState(false);
 
+  
   const nextCategory = () => {
     if (currentCategory < categories.length - 1)
       setCurrentCategory((prev) => prev + 1);
@@ -263,7 +266,7 @@ const Questionnaire = () => {
 
       {/* Category Title & Quote */}
       <h2 className="text-3xl font-heading font-medium text-smokyBlack mb-2">{category.title}</h2>
-      <p className="font-heading text-taupeGray italic mb-6 border-l-1 pl-5">{category.quote}</p>
+      <p className="font-heading text-taupeGray text-lg lg:text-xl italic mb-6 border-l-1 pl-5">{category.quote}</p>
 
       {/* Questions */}
       {category.questions.map((q, index) => (
@@ -325,14 +328,14 @@ const Questionnaire = () => {
         <button
           onClick={prevCategory}
           disabled={currentCategory === 0}
-          className="px-6 py-2 bg-gray-300 rounded disabled:opacity-50"
+          className="px-6 py-2 font-heading text-xl bg-gray-300 text-smokyBlack rounded disabled:opacity-50"
         >
           Back
         </button>
         <button
           onClick={nextCategory}
           disabled={currentCategory === categories.length - 1}
-          className="px-6 py-2 bg-roseWood text-white rounded hover:bg-roseWood/80 transition"
+          className="px-6 py-2 bg-roseWood text-white text-xl font-heading rounded hover:bg-roseWood/80 transition"
         >
           {currentCategory === categories.length - 1 ? "Finish" : "Next"}
         </button>
