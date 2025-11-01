@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import axios from "axios";
+import ResultsPage from "../components/ResultPage";
 
 const categories = [
   {
@@ -238,9 +240,17 @@ const categories = [
 const Questionnaire = () => {
   const [currentCategory, setCurrentCategory] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [isFinished, setIsFinished] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState("");
+  const [showResults, setShowResults] = useState(false);
 
-  
+  const handleAnswer = (questionText, value) => {
+    setAnswers((prev) => ({
+      ...prev,
+      [questionText]: value,
+    }));
+  };
+
   const nextCategory = () => {
     if (currentCategory < categories.length - 1)
       setCurrentCategory((prev) => prev + 1);
@@ -251,8 +261,67 @@ const Questionnaire = () => {
       setCurrentCategory((prev) => prev - 1);
   };
 
+  const finishQuiz = async () => {
+    try {
+      console.log("Submitting answers:", answers);
+      
+      if (Object.keys(answers).length === 0) {
+        alert("Please answer at least one question before submitting.");
+        return;
+      }
+
+      setLoading(true);
+      const response = await axios.post('http://localhost:5000/api/generate-insight', {
+        answers: answers
+      });
+
+      console.log("AI Response:", response.data);
+      setResult(response.data.result);
+      setShowResults(true);
+      
+    } catch (error) {
+      console.error('Error generating insight:', error);
+      
+      if (error.response?.status === 400) {
+        alert(error.response.data.message || "Please complete the questionnaire before submitting.");
+      } else {
+        alert("Failed to generate insights. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const retakeQuiz = () => {
+    setShowResults(false);
+    setCurrentCategory(0);
+    setAnswers({});
+    setResult("");
+  };
+
+  // If showing results, render the ResultsPage component
+  if (showResults) {
+    return (
+      <ResultsPage 
+        result={result} 
+        answers={answers} 
+        onRetakeQuiz={retakeQuiz}
+      />
+    );
+  }
+
   const progress = ((currentCategory + 1) / categories.length) * 100;
   const category = categories[currentCategory];
+
+  // Check if current question is answered
+  const isCurrentQuestionAnswered = (questionText) => {
+    return answers[questionText] !== undefined;
+  };
+
+  // Check if all questions in current category are answered
+  const isCurrentCategoryComplete = () => {
+    return category.questions.every(q => answers[q.text] !== undefined);
+  };
 
   return (
     <div className="max-w-2xl mx-auto p-6">
@@ -271,57 +340,91 @@ const Questionnaire = () => {
       {/* Questions */}
       {category.questions.map((q, index) => (
         <div key={index} className="mb-8">
-            <p className="font-raleway italic font-semibold mb-3">{q.text}</p>
+          <p className="font-raleway italic font-semibold mb-3">{q.text}</p>
 
-            {/* If options have images */}
-            {q.options.some(opt => opt.img) ? (
+          {/* If options have images */}
+          {q.options.some(opt => opt.img) ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {q.options.map((opt, i) => (
+              {q.options.map((opt, i) => (
                 <label
-                    key={i}
-                    className="cursor-pointer flex flex-col items-center p-3 border border-gray-300 rounded-lg hover:border-roseWood transition-all"
+                  key={i}
+                  className={`cursor-pointer flex flex-col items-center p-3 border rounded-lg transition-all ${
+                    answers[q.text] === opt.label 
+                      ? 'border-roseWood bg-roseWood/10' 
+                      : 'border-gray-300 hover:border-roseWood'
+                  }`}
                 >
-                    <input
+                  <input
                     type="radio"
-                    name={`q${index}`}
+                    name={`q${currentCategory}-${index}`}
                     value={opt.label}
-                    className="hidden peer"
-                    />
-                    {opt.img && (
+                    className="hidden"
+                    onChange={() => handleAnswer(q.text, opt.label)}
+                    checked={answers[q.text] === opt.label}
+                  />
+                  {opt.img && (
                     <img
-                        src={opt.img}
-                        alt={opt.label}
-                        className="w-24 h-24 object-cover rounded-full mb-2 peer-checked:ring-2 peer-checked:ring-roseWood"
+                      src={opt.img}
+                      alt={opt.label}
+                      className={`w-24 h-24 object-cover rounded-full mb-2 ${
+                        answers[q.text] === opt.label ? 'ring-2 ring-roseWood' : ''
+                      }`}
                     />
-                    )}
-                    <span className="font-body text-sm text-center peer-checked:text-roseWood">
+                  )}
+                  <span className={`font-body text-sm text-center ${
+                    answers[q.text] === opt.label ? 'text-roseWood font-semibold' : ''
+                  }`}>
                     {opt.label}
-                    </span>
+                  </span>
                 </label>
-                ))}
+              ))}
             </div>
-            ) : (
+          ) : (
             // If options don't have images
             <div className="flex flex-col gap-2">
-                {q.options.map((opt, i) => (
+              {q.options.map((opt, i) => (
                 <label
-                    key={i}
-                    className="cursor-pointer hover:text-roseWood transition"
+                  key={i}
+                  className={`cursor-pointer p-2 rounded transition ${
+                    answers[q.text] === opt.label 
+                      ? 'text-roseWood bg-roseWood/10 font-semibold' 
+                      : 'hover:text-roseWood'
+                  }`}
                 >
-                    <input
+                  <input
                     type="radio"
-                    name={`q${index}`}
+                    name={`q${currentCategory}-${index}`}
                     value={opt.label}
                     className="mr-2 accent-roseWood"
-                    />
-                    {opt.label}
+                    onChange={() => handleAnswer(q.text, opt.label)}
+                    checked={answers[q.text] === opt.label}
+                  />
+                  {opt.label}
                 </label>
-                ))}
+              ))}
             </div>
-            )}
-        </div>
-        ))}
+          )}
 
+          {/* Show which answer is selected for this question */}
+          {answers[q.text] && (
+            <p className="mt-2 text-sm text-roseWood">
+              Selected: <strong>{answers[q.text]}</strong>
+            </p>
+          )}
+        </div>
+      ))}
+
+      {/* Debug: Show current answers */}
+      <div className="mt-4 p-4 bg-gray-100 rounded">
+        <p className="text-sm text-gray-600">
+          <strong>Current answers collected:</strong> {Object.keys(answers).length}
+        </p>
+        {Object.keys(answers).map(key => (
+          <p key={key} className="text-xs text-gray-500">
+            {key}: {answers[key]}
+          </p>
+        ))}
+      </div>
 
       {/* Navigation Buttons */}
       <div className="flex justify-between mt-8">
@@ -332,14 +435,31 @@ const Questionnaire = () => {
         >
           Back
         </button>
-        <button
-          onClick={nextCategory}
-          disabled={currentCategory === categories.length - 1}
-          className="px-6 py-2 bg-roseWood text-white text-xl font-heading rounded hover:bg-roseWood/80 transition"
-        >
-          {currentCategory === categories.length - 1 ? "Finish" : "Next"}
-        </button>
+        {currentCategory === categories.length - 1 ? (
+          <button
+            onClick={finishQuiz}
+            disabled={loading || Object.keys(answers).length === 0}
+            className="px-6 py-2 bg-roseWood text-white text-xl font-heading rounded hover:bg-roseWood/80 transition disabled:opacity-50"
+          >
+            {loading ? "Analyzing..." : "Finish"}
+          </button>
+        ) : (
+          <button
+            onClick={nextCategory}
+            className="px-6 py-2 bg-roseWood text-white text-xl font-heading rounded hover:bg-roseWood/80 transition"
+          >
+            Next
+          </button>
+        )}
       </div>
+
+      {/* Display AI Result
+      {result && (
+        <div className="mt-10 bg-gray-50 p-6 rounded-lg shadow">
+          <h3 className="text-2xl font-heading text-roseWood mb-3">✨ Your AI Makeup Analysis</h3>
+          <pre className="whitespace-pre-wrap font-body text-gray-700">{result}</pre>
+        </div>
+      )} */}
     </div>
   );
 };
