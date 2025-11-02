@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -14,5 +14,19 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 console.log("✅ Firestore connected successfully:", db);
+
+export async function saveQuizResult(data) {
+  try {
+    const docRef = await addDoc(collection(db, "makeup_results"), {
+      ...data,
+      createdAt: serverTimestamp(),
+    });
+    console.log("Document saved with ID:", docRef.id);
+    return docRef.id;
+  } catch (error) {
+    console.error("Error saving document:", error);
+    throw error; 
+  }
+}
 
 export { db };

@@ -1,19 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+import { saveQuizResult } from "../firebase"; 
 
 const ResultsPage = ({ analysis, answers, onRetakeQuiz }) => {
-  if (!analysis) {
-    return (
-      <div className="max-w-4xl mx-auto p-6 text-center">
-        <p>No analysis data available.</p>
-        <button
-          onClick={onRetakeQuiz}
-          className="mt-4 px-6 py-2 bg-smokyBlack text-white font-heading rounded hover:bg-snowWhite hover:text-smokyBlack hover:border border-smokyBlack transition"
-        >
-          Retake Quiz
-        </button>
-      </div>
-    );
-  }
+  const [saving, setSaving] = useState(false);
+  const [saveStatus, setSaveStatus] = useState("");
 
   // Safely access analysis properties with fallbacks
   const safeAnalysis = {
@@ -28,6 +18,48 @@ const ResultsPage = ({ analysis, answers, onRetakeQuiz }) => {
     },
     aiInsight: analysis.aiInsight || analysis.Summary || "Overall beauty insight and recommendations"
   };
+
+  const handleSaveAnalysis = async () => {
+    setSaving(true);
+    setSaveStatus("Saving...");
+    
+    try {
+      const dataToSave = {
+        analysis: safeAnalysis,
+        answers: answers,
+        timestamp: new Date().toISOString(),
+      };
+      
+      const docId = await saveQuizResult(dataToSave);
+      
+      if (docId) {
+        setSaveStatus("✅ Analysis saved successfully!");
+      } else {
+        setSaveStatus("❌ Failed to save analysis");
+      }
+    } catch (error) {
+      console.error("Error saving analysis:", error);
+      setSaveStatus("❌ Error saving analysis");
+    } finally {
+      setSaving(false);
+      // Clear status after 3 seconds
+      setTimeout(() => setSaveStatus(""), 3000);
+    }
+  };
+
+  if (!analysis) {
+    return (
+      <div className="max-w-4xl mx-auto p-6 text-center">
+        <p>No analysis data available.</p>
+        <button
+          onClick={onRetakeQuiz}
+          className="mt-4 px-6 py-2 bg-smokyBlack text-white font-heading rounded hover:bg-snowWhite hover:text-smokyBlack hover:border border-smokyBlack transition"
+        >
+          Retake Quiz
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-4">
@@ -114,14 +146,28 @@ const ResultsPage = ({ analysis, answers, onRetakeQuiz }) => {
       </div>
 
       {/* Action Buttons */}
-      <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-12">
+      <div className="flex flex-row gap-4 justify-center items-center mt-12">
         <button className="px-8 py-3 text-lg bg-smokyBlack text-white font-heading rounded hover:bg-snowWhite hover:text-smokyBlack hover:border border-smokyBlack transition">
           Share Results
         </button>
-        <button className="px-8 py-3 text-lg bg-roseWood text-white font-heading rounded hover:bg-roseWood/80 transition">
-          Save Analysis
+        
+        <button 
+          onClick={handleSaveAnalysis}
+          disabled={saving}
+          className="px-8 py-3 text-lg bg-roseWood text-white font-heading rounded hover:bg-roseWood/80 transition disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {saving ? "💾 Saving..." : "💾 Save Analysis"}
         </button>
       </div>
+
+      {/* Save Status Message */}
+      {saveStatus && (
+        <div className={`mt-4 text-center text-lg font-semibold ${
+          saveStatus.includes("✅") ? "text-green-600" : "text-red-600"
+        }`}>
+          {saveStatus}
+        </div>
+      )}
     </div>
   );
 };
