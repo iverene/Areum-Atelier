@@ -5,12 +5,13 @@ import Analysis from "./pages/Analysis";
 import Moodboard from "./pages/Moodboard";
 import About from "./pages/About";
 
+
 export default function App() {
   return (
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/analysis" element={<Analysis />} />
+        <Route path="/*" element={<Analysis />} />
         <Route path="/moodboard" element={<Moodboard />} />
         <Route path="/about" element={<About />} />
       </Routes>
