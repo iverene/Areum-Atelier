@@ -8,29 +8,29 @@ const ResultsPage = ({ result, answers, onRetakeQuiz }) => {
         <h1 className="text-4xl font-heading font-medium text-roseWood mb-4">
           Your Beauty Analysis ✨
         </h1>
-        <p className="text-lg text-taupeGray">
+        <p className="font-body text-lg text-smokyBlack">
           Personalized makeup recommendations based on your unique features
         </p>
       </div>
 
-      <div className="grid md:grid-row-2 gap-8">
+      <div className="grid lg:grid-row-2 gap-8">
         {/* Answers Summary */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-2xl font-heading text-smokyBlack mb-4">Your Profile</h2>
+        <div className="bg-white border shadow-md p-6">
+          <h2 className="text-2xl lg:text-3xl font-heading text-smokyBlack mb-4 text-center italic">Your Profile</h2>
           <div className="space-y-3">
             {Object.entries(answers).map(([question, answer]) => (
               <div key={question} className="border-b border-gray-100 pb-3">
-                <p className="font-semibold text-sm text-gray-600 mb-1">
+                <p className="font-semibold text-sm lg:text-base text-gray-600 mb-1">
                   {question.replace(/\?/g, "")}
                 </p>
-                <p className="text-smokyBlack">{answer}</p>
+                <p className="text-smokyBlack italic">{answer}</p>
               </div>
             ))}
           </div>
           
           <button
             onClick={onRetakeQuiz}
-            className="mt-6 w-full px-4 py-2 bg-gray-200 text-smokyBlack rounded hover:bg-gray-300 transition"
+            className="mt-6 w-full px-4 py-2 text-lg bg-smokyBlack text-white font-heading rounded hover:bg-snowWhite hover:text-smokyBlack hover:border border-smokyBlack  transition"
           >
             Retake Quiz
           </button>

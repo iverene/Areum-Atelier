@@ -416,9 +416,6 @@ const Questionnaire = () => {
 
       {/* Debug: Show current answers */}
       <div className="mt-4 p-4 bg-gray-100 rounded">
-        <p className="text-sm text-gray-600">
-          <strong>Current answers collected:</strong> {Object.keys(answers).length}
-        </p>
         {Object.keys(answers).map(key => (
           <p key={key} className="text-xs text-gray-500">
             {key}: {answers[key]}
@@ -453,13 +450,6 @@ const Questionnaire = () => {
         )}
       </div>
 
-      {/* Display AI Result
-      {result && (
-        <div className="mt-10 bg-gray-50 p-6 rounded-lg shadow">
-          <h3 className="text-2xl font-heading text-roseWood mb-3">✨ Your AI Makeup Analysis</h3>
-          <pre className="whitespace-pre-wrap font-body text-gray-700">{result}</pre>
-        </div>
-      )} */}
     </div>
   );
 };

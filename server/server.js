@@ -71,7 +71,7 @@ app.post("/api/generate-insight", async (req, res) => {
   const prompt = `
   You are a professional makeup consultant. Analyze the user's quiz answers below and generate a personalized makeup analysis.
 
-  IMPORTANT: Do NOT use any markdown formatting like **bold**, *italic*, or ### headers. Use only plain text with emojis for visual appeal.
+  IMPORTANT: Do NOT use any markdown formatting like * (asterisks symbol), **bold**, *italic*, or ### headers. Use only plain text with emojis for visual appeal.
 
   Here are the user's answers:
   ${JSON.stringify(answers, null, 2)}
