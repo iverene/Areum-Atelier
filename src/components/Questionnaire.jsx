@@ -252,6 +252,11 @@ const Questionnaire = () => {
   };
 
   const nextCategory = () => {
+    if (!isCurrentCategoryComplete()) {
+      alert("Please answer all questions in this category before proceeding.");
+      return;
+    }
+    
     if (currentCategory < categories.length - 1)
       setCurrentCategory((prev) => prev + 1);
   };
@@ -313,10 +318,6 @@ const Questionnaire = () => {
   const progress = ((currentCategory + 1) / categories.length) * 100;
   const category = categories[currentCategory];
 
-  // Check if current question is answered
-  const isCurrentQuestionAnswered = (questionText) => {
-    return answers[questionText] !== undefined;
-  };
 
   // Check if all questions in current category are answered
   const isCurrentCategoryComplete = () => {
@@ -414,14 +415,6 @@ const Questionnaire = () => {
         </div>
       ))}
 
-      {/* Debug: Show current answers */}
-      <div className="mt-4 p-4 bg-gray-100 rounded">
-        {Object.keys(answers).map(key => (
-          <p key={key} className="text-xs text-gray-500">
-            {key}: {answers[key]}
-          </p>
-        ))}
-      </div>
 
       {/* Navigation Buttons */}
       <div className="flex justify-between mt-8">
@@ -443,6 +436,7 @@ const Questionnaire = () => {
         ) : (
           <button
             onClick={nextCategory}
+            disabled={!isCurrentCategoryComplete()} 
             className="px-6 py-2 bg-roseWood text-white text-xl font-heading rounded hover:bg-roseWood/80 transition"
           >
             Next

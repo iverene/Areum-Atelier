@@ -71,7 +71,7 @@ const SavedAnalyses = () => {
   );
 };
 
-// Reuse your existing AnalysisView component or create a simplified version
+
 const AnalysisView = ({ analysis }) => (
   <div className="max-w-4xl mx-auto p-6">
     {/* Profile Summary */}
