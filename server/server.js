@@ -3,13 +3,11 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 dotenv.config();
-console.log("✅ Loaded GROQ_API_KEY:", process.env.GROQ_API_KEY ? "Yes" : "No");
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Mock data generator for fallback (moved to top to avoid reference errors)
 function generateMockAnalysis(answers) {
   const skinTone = answers["How would you describe your overall skin tone?"] || "medium";
   const undertone = answers["Which jewelry complements your skin more?"] || "neutral";
@@ -17,43 +15,56 @@ function generateMockAnalysis(answers) {
   const eyeShape = answers["What is your natural eye shape?"] || "almond";
   const lipShape = answers["How would you describe your natural lip fullness?"] || "medium";
   
-  return `
-Your Personalized Makeup Analysis ✨
+  return {
+    profileSummary: `Based on your ${skinTone} skin with ${undertone} undertones and ${preference} preferences, you have a balanced beauty profile that works well with both natural and enhanced makeup looks.`,
+    
+    beautyPalette: `Your ${undertone} undertones pair beautifully with warm, earthy colors. For foundation, look for shades with golden or neutral undertones. Your complexion shines with peach, rose, and bronze tones.`,
+    
+    lips: `For your ${lipShape} lips, we recommend creamy satin finishes in neutral pinks for daytime and deeper berry tones for evening. Hydrating formulas will keep your lips looking their best.`,
+    
+    eyes: `Your ${eyeShape} eyes are perfect for soft, blended eyeshadow looks. Focus on neutral browns and taupes to enhance your natural shape. Use brown eyeliner for subtle definition.`,
+    
+    contourHighlight: `Apply cool-toned contour powder lightly under cheekbones for subtle definition. Highlight with pearl or champagne shades on cheekbones, brow bones, and cupid's bow for a natural glow.`,
+    
+    recommendedLooks: {
+      day: "Fresh-faced look with tinted moisturizer, neutral eyeshadow, mascara, and lip balm",
+      evening: "Soft glam with defined eyes, subtle contour, and bold lip color"
+    },
+    
+    aiInsight: `Your beauty profile suggests a harmonious balance between natural elegance and enhanced features. Your ${undertone} undertones create a versatile canvas that works well with both minimal and polished makeup styles.`
+  };
+}
 
-Profile Summary
-• Skin Tone: ${skinTone}
-• Undertone: ${undertone}
-• Preference: ${preference}
-• Eye Shape: ${eyeShape}
-• Lip Fullness: ${lipShape}
+function cleanAnalysisResponse(analysis) {
+  // Function to parse any string that might be JSON
+  const parseIfJson = (str) => {
+    if (typeof str !== 'string') return str;
+    try {
+      const parsed = JSON.parse(str);
+      // If it's an object, convert it to a readable string
+      if (typeof parsed === 'object' && parsed !== null) {
+        return Object.entries(parsed)
+          .map(([key, value]) => `${key}: ${value}`)
+          .join('. ');
+      }
+      return parsed;
+    } catch {
+      return str;
+    }
+  };
 
-💫 Your Beauty Palette
-Based on your ${skinTone} skin with ${undertone} undertones, we recommend warm, earthy tones that complement your natural coloring. Perfect foundation matches would be in the beige to golden spectrum.
-
-💋 Lips
-For your ${lipShape} lips:
-• Everyday: Neutral pink or peach shades with creamy finish
-• Special Occasion: Deeper berry or mauve tones
-• Recommended: Hydrating lipsticks with satin finish
-
-👁️ Eyes
-For your ${eyeShape} eyes:
-• Eyeshadows: Neutral browns, taupes, and soft golds
-• Techniques: Soft blending to enhance your natural shape
-• Eyeliner: Brown or gray for subtle definition
-
-🎨 Contour & Highlight
-• Contour: Subtle definition with cool-toned powder under cheekbones
-• Highlight: Pearl or champagne on cheekbones, brow bones, and cupid's bow
-• Blush: Soft peach or rosy tones on apples of cheeks
-
-💄 Recommended Looks
-• Day Look: Fresh-faced with tinted moisturizer, neutral eyes, and lip balm
-• Evening Look: Soft glam with defined eyes, contour, and bold lips
-
-🌷 AI Insight
-Your beauty profile suggests a balanced approach that enhances your natural features while maintaining a fresh, radiant appearance. Your ${undertone} undertones and ${preference} preferences create a harmonious canvas for both everyday elegance and special occasion glamour.
-  `;
+  return {
+    profileSummary: parseIfJson(analysis.profileSummary || analysis.Skin || analysis.Hair),
+    beautyPalette: parseIfJson(analysis.beautyPalette || analysis.Skin || analysis['Beauty Palette']),
+    lips: parseIfJson(analysis.lips || analysis.Lips),
+    eyes: parseIfJson(analysis.eyes || analysis.Eyes),
+    contourHighlight: parseIfJson(analysis.contourHighlight || analysis.Contour || analysis.Highlight),
+    recommendedLooks: {
+      day: parseIfJson(analysis.recommendedLooks?.day || analysis.Day || analysis['Day Look']),
+      evening: parseIfJson(analysis.recommendedLooks?.evening || analysis.Evening || analysis['Evening Look'])
+    },
+    aiInsight: parseIfJson(analysis.aiInsight || analysis.Summary || analysis.Insight)
+  };
 }
 
 app.post("/api/generate-insight", async (req, res) => {
@@ -68,43 +79,30 @@ app.post("/api/generate-insight", async (req, res) => {
       });
     }
 
-  const prompt = `
-  You are a professional makeup consultant. Analyze the user's quiz answers below and generate a personalized makeup analysis.
+    const prompt = `
+You are a professional makeup consultant. Analyze these beauty quiz answers and provide a personalized makeup analysis.
 
-  IMPORTANT: Do NOT use any markdown formatting like * (asterisks symbol), **bold**, *italic*, or ### headers. Use only plain text with emojis for visual appeal.
+USER ANSWERS:
+${JSON.stringify(answers, null, 2)}
 
-  Here are the user's answers:
-  ${JSON.stringify(answers, null, 2)}
+CRITICAL: You MUST respond with ONLY a JSON object in this EXACT structure. All values must be plain text, NOT nested JSON:
 
-  Please structure your response like this:
+{
+  "profileSummary": "Brief summary text here as plain text only",
+  "beautyPalette": "Makeup tone and product suggestions as plain text only",
+  "lips": "Lip recommendations as plain text only",
+  "eyes": "Eye makeup suggestions as plain text only", 
+  "contourHighlight": "Contour and highlight advice as plain text only",
+  "recommendedLooks": {
+    "day": "Day look description as plain text only",
+    "evening": "Evening look description as plain text only"
+  },
+  "aiInsight": "Final summary text here as plain text only"
+}
 
-  Your Personalized Makeup Analysis ✨
+IMPORTANT: Do NOT use any JSON formatting within the values. Use only natural English sentences.
+`;
 
-  Profile Summary
-  • [Summary of key characteristics]
-
-  💫 Your Beauty Palette
-  [Makeup tone and product suggestions matching the user's profile]
-
-  💋 Lips
-  [Ideal lip shades and finishes]
-
-  👁️ Eyes  
-  [Eye makeup palette and techniques]
-
-  🎨 Contour & Highlight
-  [Contour and highlight advice]
-
-  💄 Recommended Looks
-  [Day and Evening look recommendations]
-
-  🌷 AI Insight
-  [A short 2-3 sentence summary of the user's beauty profile]
-
-  Remember: Use only plain text, no markdown symbols.
-  `;
-
-    // Use current Groq models (updated to avoid decommissioned models)
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -112,12 +110,11 @@ app.post("/api/generate-insight", async (req, res) => {
         "Authorization": `Bearer ${process.env.GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        // Updated models that are currently available
-        model: "llama-3.1-8b-instant", // Alternative: "mixtral-8x7b-32768", "llama-3.1-70b-versatile"
+        model: "llama-3.1-8b-instant",
         messages: [
           {
             role: "system",
-            content: "You are a professional makeup artist and beauty consultant with expertise in color theory, skin tones, and personalized makeup recommendations."
+            content: "You are a makeup expert. You MUST respond with ONLY valid JSON. All values must be plain text sentences, no nested JSON objects or arrays."
           },
           {
             role: "user",
@@ -126,8 +123,7 @@ app.post("/api/generate-insight", async (req, res) => {
         ],
         temperature: 0.7,
         max_tokens: 1500,
-        top_p: 0.9,
-        stream: false
+        response_format: { type: "json_object" }
       })
     });
 
@@ -138,45 +134,67 @@ app.post("/api/generate-insight", async (req, res) => {
 
     const data = await response.json();
     const aiResult = data.choices[0].message.content;
+    
+    console.log("Raw AI response:", aiResult);
+    
+    // Parse the JSON response
+    let parsedResult;
+    try {
+      parsedResult = JSON.parse(aiResult);
+      console.log("✅ AI insight parsed successfully");
+    } catch (parseError) {
+      console.error("Failed to parse AI response:", parseError);
+      parsedResult = generateMockAnalysis(answers);
+    }
 
-    console.log("✅ AI insight generated successfully with Groq");
-    res.json({ result: aiResult });
+    // Clean and validate the structure
+    const cleanedResult = cleanAnalysisResponse(parsedResult);
+    const finalResult = validateAnalysisStructure(cleanedResult, answers);
+
+    console.log("Final cleaned result:", finalResult);
+
+    res.json({ 
+      success: true,
+      analysis: finalResult 
+    });
 
   } catch (error) {
     console.error("Error generating AI insight:", error);
     
-    // Use the answers from the request body in the catch block
     const { answers } = req.body || {};
+    const mockResult = generateMockAnalysis(answers || {});
     
-    if (error.message.includes("401")) {
-      res.status(500).json({ 
-        error: "Invalid Groq API key",
-        details: "Please check your GROQ_API_KEY in the .env file"
-      });
-    } else if (error.message.includes("429")) {
-      // Provide mock data when rate limited
-      const mockResult = generateMockAnalysis(answers || {});
-      res.json({ 
-        result: mockResult,
-        note: "Free AI service limit reached. Here's a personalized analysis based on your answers."
-      });
-    } else if (error.message.includes("400") || error.message.includes("model_decommissioned")) {
-      // Provide mock data for model errors
-      const mockResult = generateMockAnalysis(answers || {});
-      res.json({ 
-        result: mockResult,
-        note: "AI model updating. Here's your personalized makeup analysis."
-      });
-    } else {
-      // General fallback to mock data
-      const mockResult = generateMockAnalysis(answers || {});
-      res.json({ 
-        result: mockResult,
-        note: "AI service is temporarily unavailable. Here's a personalized analysis based on your answers."
-      });
-    }
+    res.json({ 
+      success: false,
+      analysis: mockResult,
+      note: "Using simulated analysis"
+    });
   }
 });
+
+function validateAnalysisStructure(analysis, answers) {
+  const defaultAnalysis = generateMockAnalysis(answers || {});
+  
+  // Ensure all values are strings
+  const ensureString = (value) => {
+    if (typeof value === 'string') return value;
+    if (typeof value === 'object') return JSON.stringify(value);
+    return String(value);
+  };
+
+  return {
+    profileSummary: ensureString(analysis.profileSummary || defaultAnalysis.profileSummary),
+    beautyPalette: ensureString(analysis.beautyPalette || analysis.Skin || defaultAnalysis.beautyPalette),
+    lips: ensureString(analysis.lips || analysis.Lips || defaultAnalysis.lips),
+    eyes: ensureString(analysis.eyes || analysis.Eyes || defaultAnalysis.eyes),
+    contourHighlight: ensureString(analysis.contourHighlight || analysis.Contour || defaultAnalysis.contourHighlight),
+    recommendedLooks: {
+      day: ensureString(analysis.recommendedLooks?.day || analysis.Day || defaultAnalysis.recommendedLooks.day),
+      evening: ensureString(analysis.recommendedLooks?.evening || analysis.Evening || defaultAnalysis.recommendedLooks.evening)
+    },
+    aiInsight: ensureString(analysis.aiInsight || analysis.Summary || defaultAnalysis.aiInsight)
+  };
+}
 
 // Health check endpoint
 app.get("/api/health", (req, res) => {
@@ -187,6 +205,5 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// 🔹 Run the server
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));

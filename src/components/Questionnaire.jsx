@@ -276,7 +276,7 @@ const Questionnaire = () => {
       });
 
       console.log("AI Response:", response.data);
-      setResult(response.data.result);
+      setResult(response.data.analysis);
       setShowResults(true);
       
     } catch (error) {
@@ -303,7 +303,7 @@ const Questionnaire = () => {
   if (showResults) {
     return (
       <ResultsPage 
-        result={result} 
+        analysis={result} 
         answers={answers} 
         onRetakeQuiz={retakeQuiz}
       />
