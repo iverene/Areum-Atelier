@@ -31,11 +31,11 @@ const categories = [
       {
         text: "Which foundation shades usually match you best?",
         options: [
-            { label: "Porcelain / Ivory", img: "src/assets/questionnaire/fair.jpg" },
-            { label: "Beige / Honey", img: "src/assets/questionnaire/fair.jpg" },
-            { label: "Sand / Warm Tan", img: "src/assets/questionnaire/fair.jpg" },
-            { label: "Caramel / Chestnut", img: "src/assets/questionnaire/fair.jpg" },
-            { label: "Mocha / Espresso", img: "src/assets/questionnaire/fair.jpg" },
+            { label: "Porcelain / Ivory", img: "src/assets/questionnaire/foundation-ivory.png" },
+            { label: "Beige / Honey", img: "src/assets/questionnaire/foundation-beige.png" },
+            { label: "Sand / Warm Tan", img: "src/assets/questionnaire/foundation-sand.png" },
+            { label: "Caramel / Chestnut", img: "src/assets/questionnaire/foundation-caramel.png" },
+            { label: "Mocha / Espresso", img: "src/assets/questionnaire/foundation-mocha.png" },
         ],
       },
     ],
