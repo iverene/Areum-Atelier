@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import { saveQuizResult } from "../firebase"; 
+import React, { useState, useRef, useEffect } from "react";
+import html2canvas from "html2canvas-pro";
+
 
 const ResultsPage = ({ analysis, answers, onRetakeQuiz }) => {
   const [saving, setSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState("");
+  const resultsRef = useRef(null);
 
-  // Safely access analysis properties with fallbacks
+  // Safely access analysis properties
   const safeAnalysis = {
     profileSummary: analysis.profileSummary || "Personalized beauty profile analysis",
     beautyPalette: analysis.beautyPalette || analysis.Skin || "Your personalized beauty palette recommendations",
@@ -19,30 +21,44 @@ const ResultsPage = ({ analysis, answers, onRetakeQuiz }) => {
     aiInsight: analysis.aiInsight || analysis.Summary || "Overall beauty insight and recommendations"
   };
 
-  const handleSaveAnalysis = async () => {
-    setSaving(true);
-    setSaveStatus("Saving...");
-    
-    try {
+  // ✅ Auto-save to localStorage when results load
+  useEffect(() => {
+    if (analysis && answers) {
       const dataToSave = {
         analysis: safeAnalysis,
         answers: answers,
         timestamp: new Date().toISOString(),
       };
-      
-      const docId = await saveQuizResult(dataToSave);
-      
-      if (docId) {
-        setSaveStatus("✅ Analysis saved successfully!");
-      } else {
-        setSaveStatus("❌ Failed to save analysis");
-      }
-    } catch (error) {
-      console.error("Error saving analysis:", error);
-      setSaveStatus("❌ Error saving analysis");
+      const existing = JSON.parse(localStorage.getItem("quizResults") || "[]");
+      existing.push(dataToSave);
+      localStorage.setItem("quizResults", JSON.stringify(existing));
+      setSaveStatus("✅ Auto-saved locally!");
+      setTimeout(() => setSaveStatus(""), 3000);
+    }
+  }, [analysis, answers]);
+
+  // Save results as PNG using html2canvas
+  const handleSaveAsPNG = async () => {
+    setSaving(true);
+    try {
+      const button = document.querySelector(".save-png-btn");
+      button.style.visibility = "hidden";
+
+      const element = resultsRef.current;
+      const canvas = await html2canvas(element, { scale: 2 });
+      const link = document.createElement("a");
+      link.download = "areum-atelier-analysis.png";
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+
+      button.style.visibility = "visible";
+
+      setSaveStatus("Saved as PNG!");
+    } catch (err) {
+      console.error("Error saving as PNG:", err);
+      setSaveStatus("Failed to save as PNG");
     } finally {
       setSaving(false);
-      // Clear status after 3 seconds
       setTimeout(() => setSaveStatus(""), 3000);
     }
   };
@@ -62,8 +78,7 @@ const ResultsPage = ({ analysis, answers, onRetakeQuiz }) => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto p-4">
-      
+    <div className="max-w-4xl mx-auto p-4" ref={resultsRef}>
       {/* Profile Summary */}
       <div className="bg-white border shadow-md p-6 mb-8">
         <h2 className="text-2xl lg:text-3xl font-heading text-smokyBlack mb-4 text-center italic">
@@ -88,39 +103,20 @@ const ResultsPage = ({ analysis, answers, onRetakeQuiz }) => {
         </button>
       </div>
 
-      {/* AI Analysis Sections */}
+      {/* Analysis Sections */}
       <div className="bg-white border shadow-md p-6 mb-8 space-y-8">
         <h2 className="text-2xl lg:text-3xl font-heading text-smokyBlack pt-4 text-center italic">
           Your Personalized Makeup Analysis
         </h2>
-        {/* Beauty Palette */}
-        <SectionCard
-          title="Your Beauty Palette"
-          content={safeAnalysis.beautyPalette}
-        />
 
-        {/* Lips */}
-        <SectionCard
-          title="Lips"
-          content={safeAnalysis.lips}
-        />
+        <SectionCard title="Your Beauty Palette" content={safeAnalysis.beautyPalette} />
+        <SectionCard title="Lips" content={safeAnalysis.lips} />
+        <SectionCard title="Eyes" content={safeAnalysis.eyes} />
+        <SectionCard title="Contour & Highlight" content={safeAnalysis.contourHighlight} />
 
-        {/* Eyes */}
-        <SectionCard
-          title="Eyes"
-          content={safeAnalysis.eyes}
-        />
-
-        {/* Contour & Highlight */}
-        <SectionCard
-          title="Contour & Highlight"
-          content={safeAnalysis.contourHighlight}
-        />
-
-        {/* Recommended Looks */}
         <div className="px-2 pb-6 border-b">
           <h2 className="text-2xl lg:text-3xl font-heading text-smokyBlack mb-4 italic border-l pl-3">
-             Recommended Looks
+            Recommended Looks
           </h2>
           <div className="space-y-6">
             <div>
@@ -138,48 +134,44 @@ const ResultsPage = ({ analysis, answers, onRetakeQuiz }) => {
           </div>
         </div>
 
-        {/* AI Insight */}
-        <SectionCard
-          title="AI Insight"
-          content={safeAnalysis.aiInsight}
-        />
+        <SectionCard title="AI Insight" content={safeAnalysis.aiInsight} />
       </div>
 
       {/* Action Buttons */}
       <div className="flex flex-row gap-4 justify-center items-center mt-12">
-        <button className="px-8 py-3 text-lg bg-smokyBlack text-white font-heading rounded hover:bg-snowWhite hover:text-smokyBlack hover:border border-smokyBlack transition">
-          Share Results
-        </button>
-        
-        <button 
-          onClick={handleSaveAnalysis}
+        <button
+          onClick={handleSaveAsPNG}
           disabled={saving}
-          className="px-8 py-3 text-lg bg-roseWood text-white font-heading rounded hover:bg-roseWood/80 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          className="save-png-btn px-8 py-3 text-lg bg-roseWood text-white font-heading rounded hover:bg-roseWood/80 transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {saving ? "💾 Saving..." : "💾 Save Analysis"}
+          {saving ? "📸 Saving..." : "📸 Save as PNG"}
         </button>
       </div>
 
-      {/* Save Status Message */}
+      {/* Save Status */}
       {saveStatus && (
-        <div className={`mt-4 text-center text-lg font-semibold ${
-          saveStatus.includes("✅") ? "text-green-600" : "text-red-600"
-        }`}>
+        <div
+          className={`mt-4 mx-auto w-fit px-8 py-3 rounded-lg text-lg font-semibold font-heading transition-all duration-300 ${
+            saveStatus.includes("✅") 
+              ? " text-smokyBlack shadow-md" 
+              : " text-roseWood shadow-md"
+          }`}
+        >
           {saveStatus}
         </div>
       )}
+
     </div>
   );
 };
 
-// Reusable Section Card Component
 const SectionCard = ({ title, content }) => (
   <div className="px-2 pb-6 border-b">
     <h2 className="text-2xl lg:text-3xl font-heading text-smokyBlack mb-4 italic border-l pl-3">
       {title}
     </h2>
     <p className="text-smokyBlack font-body text-base lg:text-lg leading-relaxed">
-      {typeof content === 'string' ? content : JSON.stringify(content)}
+      {typeof content === "string" ? content : JSON.stringify(content)}
     </p>
   </div>
 );

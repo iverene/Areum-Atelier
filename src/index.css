@@ -49,6 +49,7 @@
   .quote-content {
     @apply font-heading italic text-lg lg:text-xl text-smokyBlack text-center leading-relaxed px-5;
   }
+
 }
 
 @layer utilities {
