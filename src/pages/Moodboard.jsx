@@ -48,10 +48,31 @@ export default function Moodboard() {
         return newArray;
     };
 
-    // Initialize and shuffle images on component mount
+    // Load saved images
     useEffect(() => {
-        setImages(shuffleArray(sampleImages));
+    const saved = localStorage.getItem("moodboardImages");
+    if (saved) {
+        try {
+        const parsed = JSON.parse(saved);
+        setImages(parsed);
+        return;
+        } catch (err) {
+        console.error("Invalid saved images in localStorage", err);
+        }
+    }
+
+    const shuffled = shuffleArray(sampleImages);
+    setImages(shuffled);
     }, []);
+
+    // Save to localStorage 
+    useEffect(() => {
+    if (images.length > 0) {
+        localStorage.setItem("moodboardImages", JSON.stringify(images));
+    }
+    }, [images]);
+
+
 
     // Filter images based on active tab
     const filteredImages = activeTab === "saved" 
@@ -232,12 +253,7 @@ export default function Moodboard() {
                             </div>
                         </div>
 
-                        {/* Image Info */}
-                        <div className="p-6">
-                            <p className="text-lg font-heading font-medium text-smokyBlack">
-                                {selectedImage.alt}
-                            </p>
-                        </div>
+                        
                     </div>
                 </div>
             )}
