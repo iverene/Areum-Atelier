@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import ResultsPage from "../components/ResultPage";
+import { useEffect } from "react";
 
 const categories = [
   {
@@ -250,6 +251,10 @@ const Questionnaire = () => {
       [questionText]: value,
     }));
   };
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [currentCategory]);
 
   const nextCategory = () => {
     if (!isCurrentCategoryComplete()) {
