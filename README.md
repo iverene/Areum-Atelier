@@ -37,6 +37,12 @@ By answering a short set of questions about facial features, undertones, and pre
 4. Install dependencies:
    ```bash
    npm install
-5. Run the project:
+5. Navigate to the server folder
+   ```bash
+   cd server
+6. Run the server
+   ```bash
+   node server.js
+7. In a different terminal, run the project:
    ```bash
    npm run dev
