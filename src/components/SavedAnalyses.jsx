@@ -6,12 +6,15 @@ const SavedAnalyses = () => {
 
   useEffect(() => {
     const storedAnalyses = JSON.parse(localStorage.getItem("savedAnalyses")) || [];
-    // Sort by newest first
-    const sortedAnalyses = storedAnalyses.sort(
-      (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
-    );
-    setSavedAnalyses(sortedAnalyses);
+
+    if (storedAnalyses.length > 0) {
+      const sortedAnalyses = storedAnalyses.sort(
+        (a, b) => new Date(b.timestamp) - new Date(a.timestamp)
+      );
+      setSavedAnalyses(sortedAnalyses);
+    }
   }, []);
+
 
   return (
     <div className="max-w-6xl mx-auto p-6">

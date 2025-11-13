@@ -29,9 +29,9 @@ const ResultsPage = ({ analysis, answers, onRetakeQuiz }) => {
         answers: answers,
         timestamp: new Date().toISOString(),
       };
-      const existing = JSON.parse(localStorage.getItem("quizResults") || "[]");
+      const existing = JSON.parse(localStorage.getItem("savedAnalyses") || "[]");
       existing.push(dataToSave);
-      localStorage.setItem("quizResults", JSON.stringify(existing));
+      localStorage.setItem("savedAnalyses", JSON.stringify(existing));
       setSaveStatus("✅ Auto-saved locally!");
       setTimeout(() => setSaveStatus(""), 3000);
     }
