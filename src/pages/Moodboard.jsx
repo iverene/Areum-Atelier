@@ -220,7 +220,7 @@ export default function Moodboard() {
 
             {/* Modal for Image Preview */}
             {isModalOpen && selectedImage && (
-                <div onClick={closeModal} className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4">
+                <div onClick={closeModal} className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
                     <div onClick={(e) => e.stopPropagation()} className="bg-snowWhite rounded-lg max-w-4xl max-h-[90vh] overflow-hidden">
                         <div className="relative">
                             {/* Close Button */}
