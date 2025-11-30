@@ -36,9 +36,9 @@ export default function Navbar() {
             hasScrolled ? 'shadow-md' : 'shadow-none'
         }`}>
             <div className="flex items-center space-x-2">
-                <img src="src/assets/logo/logo.png" alt="logo" className="w-10 h-10"/>
+                <img src="/logo.png" alt="logo" className="w-10 h-10"/>
                 <Link to="/">
-                    <img src="src/assets/logo/word-logo.png" alt="word logo" className="w-40 h-auto"/>
+                    <img src="/logo/word-logo.png" alt="word logo" className="w-40 h-auto"/>
                 </Link>
             </div>
 

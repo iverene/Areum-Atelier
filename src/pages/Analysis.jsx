@@ -38,9 +38,9 @@ export default function Analysis() {
                         </Link>
                         
                         <div className="relative">
-                            <img src="src/assets/images/analysis-img.png" alt="Analysis Image" className="w-95 lg:w-150 h-auto z-10"/>
-                            <img src="src/assets/images/eyes-details.png" alt="Analysis Image" className="w-50 lg:w-100 h-auto absolute top-19 -left-2 lg:top-25 lg:-left-43"/>
-                            <img src="src/assets/images/lips-details.png" alt="Analysis Image" className="w-49 lg:w-105 h-auto absolute top-40 right-0 lg:top-65 lg:-right-35"/>
+                            <img src="/images/analysis-img.png" alt="Analysis Image" className="w-95 lg:w-150 h-auto z-10"/>
+                            <img src="/images/eyes-details.png" alt="Analysis Image" className="w-50 lg:w-100 h-auto absolute top-19 -left-2 lg:top-25 lg:-left-43"/>
+                            <img src="/images/lips-details.png" alt="Analysis Image" className="w-49 lg:w-105 h-auto absolute top-40 right-0 lg:top-65 lg:-right-35"/>
                         </div>
                     </div>
                 ) : (

@@ -48,15 +48,15 @@ const RevealOnScroll = ({ children, className = "", delay = 0, variant = "fade-u
 };
 
 const storyImages = [
-    { src: "src/assets/images/story-1.jpg", height: "h-64" },
-    { src: "src/assets/images/story-4.jpg", height: "h-80" },
-    { src: "src/assets/images/story-7.jpg", height: "h-56" },
-    { src: "src/assets/images/story-2.jpg", height: "h-64" },
-    { src: "src/assets/images/story-3.jpg", height: "h-80" },
-    { src: "src/assets/images/story-5.jpg", height: "h-56" },
-    { src: "src/assets/images/story-6.jpg", height: "h-64" },
-    { src: "src/assets/images/story-8.jpg", height: "h-80" },
-    { src: "src/assets/images/story-9.jpg", height: "h-56" },
+    { src: "/images/story-1.jpg", height: "h-64" },
+    { src: "/images/story-4.jpg", height: "h-80" },
+    { src: "/images/story-7.jpg", height: "h-56" },
+    { src: "/images/story-2.jpg", height: "h-64" },
+    { src: "/images/story-3.jpg", height: "h-80" },
+    { src: "/images/story-5.jpg", height: "h-56" },
+    { src: "/images/story-6.jpg", height: "h-64" },
+    { src: "/images/story-8.jpg", height: "h-80" },
+    { src: "/images/story-9.jpg", height: "h-56" },
 ];
 
 export default function About() {
@@ -69,8 +69,8 @@ export default function About() {
                 <div className="flex flex-col lg:flex-row items-center justify-center text-center space-y-10 lg:gap-12">
                     
                     <RevealOnScroll variant="zoom-in" className="flex flex-col items-center justify-center lg:order-2 z-10">
-                        <img src="src/assets/logo/logo.png" alt="logo" className="w-70 h-auto md:w-100 lg:w-120" />
-                        <img src="src/assets/logo/word-logo.png" alt="logo" className="w-70 h-auto md:w-90 lg:w-100" />
+                        <img src="/logo.png" alt="logo" className="w-70 h-auto md:w-100 lg:w-120" />
+                        <img src="/logo/word-logo.png" alt="logo" className="w-70 h-auto md:w-90 lg:w-100" />
                     </RevealOnScroll>
                     
                     <RevealOnScroll variant="fade-right" delay={200} className="flex flex-col items-center justify-center max-w-sm lg:order-1 lg:items-start">
@@ -109,9 +109,9 @@ export default function About() {
         {storyImages.map((img, index) => (
             <RevealOnScroll 
                 key={index} 
-                variant="masonry"    // Uses the new cinematic blur-up effect
-                delay={index % 3 * 150} // Staggers animation (0ms, 150ms, 300ms repeating)
-                className="w-full break-inside-avoid mb-4 md:mb-6" // break-inside-avoid prevents images from being cut in half
+                variant="masonry"   
+                delay={index % 3 * 150} 
+                className="w-full break-inside-avoid mb-4 md:mb-6" 
             >
                 <div className="overflow-hidden rounded-lg shadow-md group">
                     <img 
@@ -141,17 +141,17 @@ export default function About() {
                 <div className="space-y-5 lg:space-y-10 w-full">
                     
                     <RevealOnScroll variant="fade-right" delay={100} className="philosophy-container">
-                        <img src="src/assets/images/philosophy-1.png" alt="Refinement" className="philosophy-image" />
+                        <img src="/images/philosophy-1.png" alt="Refinement" className="philosophy-image" />
                         <p className="philosophy-text">Enhancing, not altering.</p>
                     </RevealOnScroll>
                     
                     <RevealOnScroll variant="fade-up" delay={300} className="philosophy-container">
-                        <img src="src/assets/images/philosophy-2.png" alt="Harmony" className="philosophy-image" />
+                        <img src="/images/philosophy-2.png" alt="Harmony" className="philosophy-image" />
                         <p className="philosophy-text">Balancing tones, textures, and mood.</p>
                     </RevealOnScroll>
                     
                     <RevealOnScroll variant="fade-left" delay={500} className="philosophy-container">
-                        <img src="src/assets/images/philosophy-3.png" alt="Confidence" className="philosophy-image" />
+                        <img src="/images/philosophy-3.png" alt="Confidence" className="philosophy-image" />
                         <p className="philosophy-text">Radiating grace from within.</p>
                     </RevealOnScroll>
                 </div>

@@ -55,7 +55,7 @@ export default function Home() {
             {/* LEFT SIDE: Image */}
             <RevealOnScroll variant="fade-right" className="relative inline-block">
                 <img 
-                    src="src/assets/images/home-page-img.png" 
+                    src="/images/home-page-img.png" 
                     alt="Home Page Image" 
                     className="w-80 sm:w-90 md:100 lg:w-110 h-auto relative z-10 drop-shadow-xl"
                 />

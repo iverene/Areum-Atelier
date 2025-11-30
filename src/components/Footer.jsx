@@ -4,8 +4,8 @@ export default function Footer() {
             <div className="max-w-7xl mx-auto flex flex-col items-center text-left space-y-4 md:space-x-5">
                 <div className="flex flex-col">
                     <div className="flex items-center space-x-1">
-                        <img src="src/assets/logo/logo.png" alt="logo" className="w-10 h-10"/>
-                        <a href=""><img src="src/assets/logo/word-logo.png" alt="word logo" className="w-40 h-auto"/></a>
+                        <img src="/logo.png" alt="logo" className="w-10 h-10"/>
+                        <a href=""><img src="/logo/word-logo.png" alt="word logo" className="w-40 h-auto"/></a>
                     </div> 
                     <p className="italic">Your <span className="font-bold">areum</span>, artfully understood.</p>
                 </div>

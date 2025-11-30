@@ -13,22 +13,22 @@ export default function Moodboard() {
 
     // Sample images with different aspect ratios for Pinterest style
     const sampleImages = [
-        { id: 1, src: "src/assets/images/moodboard-1.jpg", alt: "Moodboard 1", saved: false, aspect: "tall" },
-        { id: 2, src: "src/assets/images/moodboard-2.jpg", alt: "Moodboard 2", saved: false, aspect: "wide" },
-        { id: 3, src: "src/assets/images/moodboard-3.jpg", alt: "Moodboard 3", saved: false, aspect: "tall" },
-        { id: 4, src: "src/assets/images/moodboard-4.jpg", alt: "Moodboard 4", saved: false, aspect: "square" },
-        { id: 5, src: "src/assets/images/moodboard-5.jpg", alt: "Moodboard 5", saved: false, aspect: "wide" },
-        { id: 6, src: "src/assets/images/moodboard-6.jpg", alt: "Moodboard 6", saved: false, aspect: "tall" },
-        { id: 7, src: "src/assets/images/moodboard-7.jpg", alt: "Moodboard 7", saved: false, aspect: "square" },
-        { id: 8, src: "src/assets/images/moodboard-8.jpg", alt: "Moodboard 8", saved: false, aspect: "wide" },
-        { id: 9, src: "src/assets/images/moodboard-9.jpg", alt: "Moodboard 9", saved: false, aspect: "tall" },
-        { id: 10, src: "src/assets/images/moodboard-10.jpg", alt: "Moodboard 10", saved: false, aspect: "square" },
-        { id: 11, src: "src/assets/images/moodboard-11.jpg", alt: "Moodboard 11", saved: false, aspect: "wide" },
-        { id: 12, src: "src/assets/images/moodboard-12.jpg", alt: "Moodboard 12", saved: false, aspect: "tall" },
-        { id: 13, src: "src/assets/images/moodboard-13.jpg", alt: "Moodboard 13", saved: false, aspect: "square" },
-        { id: 14, src: "src/assets/images/moodboard-14.jpg", alt: "Moodboard 14", saved: false, aspect: "wide" },
-        { id: 15, src: "src/assets/images/moodboard-15.jpg", alt: "Moodboard 15", saved: false, aspect: "tall" },
-        { id: 16, src: "src/assets/images/moodboard-16.jpg", alt: "Moodboard 16", saved: false, aspect: "square" },
+        { id: 1, src: "/images/moodboard-1.jpg", alt: "Moodboard 1", saved: false, aspect: "tall" },
+        { id: 2, src: "/images/moodboard-2.jpg", alt: "Moodboard 2", saved: false, aspect: "wide" },
+        { id: 3, src: "/images/moodboard-3.jpg", alt: "Moodboard 3", saved: false, aspect: "tall" },
+        { id: 4, src: "/images/moodboard-4.jpg", alt: "Moodboard 4", saved: false, aspect: "square" },
+        { id: 5, src: "/images/moodboard-5.jpg", alt: "Moodboard 5", saved: false, aspect: "wide" },
+        { id: 6, src: "/images/moodboard-6.jpg", alt: "Moodboard 6", saved: false, aspect: "tall" },
+        { id: 7, src: "/images/moodboard-7.jpg", alt: "Moodboard 7", saved: false, aspect: "square" },
+        { id: 8, src: "/images/moodboard-8.jpg", alt: "Moodboard 8", saved: false, aspect: "wide" },
+        { id: 9, src: "/images/moodboard-9.jpg", alt: "Moodboard 9", saved: false, aspect: "tall" },
+        { id: 10, src: "/images/moodboard-10.jpg", alt: "Moodboard 10", saved: false, aspect: "square" },
+        { id: 11, src: "/images/moodboard-11.jpg", alt: "Moodboard 11", saved: false, aspect: "wide" },
+        { id: 12, src: "/images/moodboard-12.jpg", alt: "Moodboard 12", saved: false, aspect: "tall" },
+        { id: 13, src: "/images/moodboard-13.jpg", alt: "Moodboard 13", saved: false, aspect: "square" },
+        { id: 14, src: "/images/moodboard-14.jpg", alt: "Moodboard 14", saved: false, aspect: "wide" },
+        { id: 15, src: "/images/moodboard-15.jpg", alt: "Moodboard 15", saved: false, aspect: "tall" },
+        { id: 16, src: "/images/moodboard-16.jpg", alt: "Moodboard 16", saved: false, aspect: "square" },
     ];
 
     // Aspect ratio classes for different image sizes
