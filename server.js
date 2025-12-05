@@ -5,8 +5,13 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const app = express();
-app.use(cors());
+
 app.use(express.json());
+
+app.use(cors({
+    origin: ["http://localhost:5173", "https://areum-atelier.vercel.app"],
+    credentials: true
+}))
 
 function generateMockAnalysis(answers) {
   const skinTone = answers["How would you describe your overall skin tone?"] || "medium";

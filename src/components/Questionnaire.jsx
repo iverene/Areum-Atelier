@@ -271,6 +271,8 @@ const Questionnaire = () => {
       setCurrentCategory((prev) => prev - 1);
   };
 
+  const BASE_URL = "https://areum-atelier.onrender.com";
+
   const finishQuiz = async () => {
     try {
       console.log("Submitting answers:", answers);
@@ -281,7 +283,7 @@ const Questionnaire = () => {
       }
 
       setLoading(true);
-      const response = await axios.post('http://localhost:5000/api/generate-insight', {
+      const response = await axios.post(`${BASE_URL}/api/generate-insight`, {
         answers: answers
       });
 
