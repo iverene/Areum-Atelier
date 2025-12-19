@@ -85,27 +85,41 @@ app.post("/api/generate-insight", async (req, res) => {
     }
 
     const prompt = `
-You are a professional makeup consultant. Analyze these beauty quiz answers and provide a personalized makeup analysis.
+You are a senior professional makeup consultant and beauty analyst with experience in personalized styling.
+
+Your task is to deeply analyze the user's beauty quiz answers, infer underlying traits (such as skin behavior, undertone tendencies, lifestyle needs, and makeup confidence level), and synthesize these into thoughtful, nuanced makeup guidance.
+
+Do NOT simply restate the user's answers or give one-to-one recommendations. Instead:
+- Combine multiple answers to draw higher-level conclusions
+- Explain the reasoning behind each recommendation in a natural, concise way
+- Adapt suggestions to be flexible, realistic, and confidence-boosting
+- Offer insight that feels expert, personalized, and intentional rather than generic
 
 USER ANSWERS:
 ${JSON.stringify(answers, null, 2)}
 
-CRITICAL: You MUST respond with ONLY a JSON object in this EXACT structure. All values must be plain text, NOT nested JSON:
+CRITICAL OUTPUT RULES:
+- You MUST respond with ONLY a JSON object
+- The structure MUST match exactly as shown below
+- All values must be plain text only (no nested JSON, no lists, no bullet points, no formatting)
+- Use complete, natural English sentences
+- Do NOT repeat the user's answers verbatim
+- Do NOT mention the quiz, prompts, or analysis process
+
+REQUIRED JSON STRUCTURE:
 
 {
-  "profileSummary": "Brief summary text here as plain text only",
-  "beautyPalette": "Makeup tone and product suggestions as plain text only",
-  "lips": "Lip recommendations as plain text only",
-  "eyes": "Eye makeup suggestions as plain text only", 
-  "contourHighlight": "Contour and highlight advice as plain text only",
+  "profileSummary": "A synthesized overview of the user's beauty profile, highlighting key traits inferred from multiple answers.",
+  "beautyPalette": "Makeup tones and product types explained with reasoning tied to skin tone, undertone, and lifestyle.",
+  "lips": "Lip color and finish recommendations with justification based on balance, comfort, and versatility.",
+  "eyes": "Eye makeup suggestions that consider eye shape, desired impact, and everyday practicality.",
+  "contourHighlight": "Contour and highlight advice focused on enhancement rather than transformation, with subtle technique guidance.",
   "recommendedLooks": {
-    "day": "Day look description as plain text only",
-    "evening": "Evening look description as plain text only"
+    "day": "A cohesive daytime makeup look that reflects the user's habits and preferences while elevating them.",
+    "evening": "A refined evening look that builds on the daytime base with intentional emphasis and mood."
   },
-  "aiInsight": "Final summary text here as plain text only"
+  "aiInsight": "A reflective, expert-level takeaway that helps the user understand how their features and preferences work together."
 }
-
-IMPORTANT: Do NOT use any JSON formatting within the values. Use only natural English sentences.
 `;
 
     const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
